@@ -1,8 +1,4 @@
 
- // ==========================================
- // THE LOTUS EATERS
- // Single-Level Platform Game
- // ==========================================
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -10,9 +6,6 @@ const ctx = canvas.getContext("2d");
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 
-// ==========================================
-// 1. GAME SCREENS
-// ==========================================
 
 let currentScreen = "start";
 
@@ -25,36 +18,28 @@ story1Screen.src = "assets/screens/intro-part1.png";
 const story2Screen = new Image();
 story2Screen.src = "assets/screens/intro-part2.png";
 
-// Your custom instructions image
 const instructionsScreen = new Image();
 instructionsScreen.src = "assets/screens/instructions.png";
 
 const endingScreen = new Image();
 endingScreen.src = "assets/screens/end-screen.png";
 
-// ==========================================
-// 2. GAME ASSETS
-// ==========================================
-
-// Beach background
 const beach = new Image();
 beach.src = "assets/background/level-background.png";
 
-// Odysseus sprite sheet
+
 const odysseusImage = new Image();
 odysseusImage.src = "assets/characters/Odysseus.png";
 
-// Lost crew member
+
 const crewImage = new Image();
 crewImage.src = "assets/crew/Crew.png";
 
-// Animated lotus sprite sheet
+
 const lotusImage = new Image();
 lotusImage.src = "assets/objects/Lotus Animation.png";
 
-// ==========================================
-// 3. PLAYER
-// ==========================================
+
 
 const player = {
     x: 40,
@@ -71,9 +56,7 @@ const player = {
     moving: false
 };
 
-// ==========================================
-// 4. PLATFORMS
-// ==========================================
+
 
 const platforms = [
     { x: 0, y: 320, width: 640, height: 40 },
@@ -82,23 +65,19 @@ const platforms = [
     { x: 460, y: 265, width: 110, height: 20 }
 ];
 
-// ==========================================
-// 5. LOTUS HAZARDS
-// ==========================================
+
 
 const lotuses = [
     { x: 250, y: 270, width: 50, height: 50 },
     { x: 410, y: 270, width: 50, height: 50 }
 ];
 
-// Lotus animation settings
+
 let lotusFrame = 0;
 let lotusFrameTimer = 0;
 const lotusFrameDelay = 10;
 
-// ==========================================
-// 6. CREW MEMBER
-// ==========================================
+
 
 const crewMember = {
     x: 570,
@@ -107,9 +86,7 @@ const crewMember = {
     height: 48
 };
 
-// ==========================================
-// 7. KEYBOARD CONTROLS
-// ==========================================
+
 
 const keys = {};
 
@@ -135,9 +112,7 @@ document.addEventListener("keyup", function(event) {
 
 });
 
-// ==========================================
-// 8. INTRODUCTION SCREEN CONTROLS
-// ==========================================
+
 
 canvas.addEventListener("click", function() {
 
@@ -165,9 +140,7 @@ canvas.addEventListener("click", function() {
 
 });
 
-// ==========================================
-// 9. RESET PLAYER
-// ==========================================
+
 
 function resetPlayer() {
 
@@ -180,9 +153,7 @@ function resetPlayer() {
 
 }
 
-// ==========================================
-// 10. COLLISION DETECTION
-// ==========================================
+
 
 function isColliding(a, b) {
 
@@ -195,27 +166,24 @@ function isColliding(a, b) {
 
 }
 
-// ==========================================
-// 11. PLAYER MOVEMENT
-// ==========================================
+
 
 function updatePlayer() {
 
     player.moving = false;
 
-    // Move left
     if (keys["a"] || keys["arrowleft"]) {
         player.x -= player.speed;
         player.moving = true;
     }
 
-    // Move right
+
     if (keys["d"] || keys["arrowright"]) {
         player.x += player.speed;
         player.moving = true;
     }
 
-    // Keep player inside the screen
+
     if (player.x < 0) {
         player.x = 0;
     }
@@ -224,7 +192,7 @@ function updatePlayer() {
         player.x = WIDTH - player.width;
     }
 
-    // Jump
+
     if (
         (keys[" "] || keys["space"]) &&
         player.onGround
@@ -233,7 +201,7 @@ function updatePlayer() {
         player.onGround = false;
     }
 
-    // Apply gravity
+ 
     player.velocityY += player.gravity;
 
     const previousY = player.y;
@@ -242,7 +210,7 @@ function updatePlayer() {
 
     player.onGround = false;
 
-    // Check platform collisions
+
     for (let platform of platforms) {
 
         const horizontalOverlap =
@@ -267,7 +235,7 @@ function updatePlayer() {
 
     }
 
-    // Prevent falling below the screen
+
     if (player.y + player.height > HEIGHT) {
 
         player.y = HEIGHT - player.height;
@@ -278,9 +246,7 @@ function updatePlayer() {
 
 }
 
-// ==========================================
-// 12. LOTUS ANIMATION
-// ==========================================
+
 
 function updateLotusAnimation() {
 
@@ -300,9 +266,6 @@ function updateLotusAnimation() {
 
 }
 
-// ==========================================
-// 13. CHECK LOTUS COLLISIONS
-// ==========================================
 
 function checkLotusCollision() {
 
@@ -321,9 +284,7 @@ function checkLotusCollision() {
 
 }
 
-// ==========================================
-// 14. CHECK CREW MEMBER COLLISION
-// ==========================================
+
 
 function checkCrewCollision() {
 
@@ -335,9 +296,7 @@ function checkCrewCollision() {
 
 }
 
-// ==========================================
-// 15. DRAW PLAYER
-// ==========================================
+
 
 function drawPlayer() {
 
@@ -346,9 +305,7 @@ function drawPlayer() {
         odysseusImage.naturalWidth > 0
     ) {
 
-        // Top frame = idle
-        // Bottom frame = walking
-
+        
         const sourceY = player.moving ? 48 : 0;
 
         ctx.drawImage(
@@ -361,7 +318,7 @@ function drawPlayer() {
 
     } else {
 
-        // Temporary fallback if sprite fails to load
+       
         ctx.fillStyle = "blue";
 
         ctx.fillRect(
@@ -375,9 +332,7 @@ function drawPlayer() {
 
 }
 
-// ==========================================
-// 16. DRAW LOTUS FLOWERS
-// ==========================================
+
 
 function drawLotuses() {
 
@@ -388,7 +343,7 @@ function drawLotuses() {
             lotusImage.naturalWidth > 0
         ) {
 
-            // Sprite sheet has 2 columns and 3 rows
+
             const sourceX = (lotusFrame % 2) * 50;
 
             const sourceY =
@@ -419,13 +374,10 @@ function drawLotuses() {
 
 }
 
-// ==========================================
-// 17. DRAW GAME WORLD
-// ==========================================
 
 function drawGame() {
 
-    // Draw beach
+
     if (
         beach.complete &&
         beach.naturalWidth > 0
@@ -440,7 +392,7 @@ function drawGame() {
 
     }
 
-    // Temporary platform rectangles
+
     for (let platform of platforms) {
 
         ctx.fillStyle = "#302820";
@@ -454,10 +406,9 @@ function drawGame() {
 
     }
 
-    // Draw animated lotus flowers
     drawLotuses();
 
-    // Draw crew member
+  
     if (
         crewImage.complete &&
         crewImage.naturalWidth > 0
@@ -473,20 +424,15 @@ function drawGame() {
 
     }
 
-    // Draw Odysseus
+
     drawPlayer();
 
 }
-
-// ==========================================
-// 18. MAIN GAME LOOP
-// ==========================================
 
 function gameLoop() {
 
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-    // TITLE SCREEN
     if (currentScreen === "start") {
 
         if (
@@ -500,7 +446,7 @@ function gameLoop() {
 
     }
 
-    // STORY PAGE 1
+
     else if (currentScreen === "story1") {
 
         if (
@@ -514,7 +460,6 @@ function gameLoop() {
 
     }
 
-    // STORY PAGE 2
     else if (currentScreen === "story2") {
 
         if (
@@ -528,7 +473,6 @@ function gameLoop() {
 
     }
 
-    // YOUR CUSTOM INSTRUCTIONS PAGE
     else if (currentScreen === "instructions") {
 
         if (
@@ -546,7 +490,6 @@ function gameLoop() {
 
     }
 
-    // GAMEPLAY
     else if (currentScreen === "game") {
 
         updatePlayer();
@@ -565,7 +508,6 @@ function gameLoop() {
 
     }
 
-    // ENDING
     else if (currentScreen === "ending") {
 
         if (
@@ -604,8 +546,5 @@ function gameLoop() {
 
 }
 
-// ==========================================
-// 19. START GAME
-// ==========================================
 
 gameLoop();
